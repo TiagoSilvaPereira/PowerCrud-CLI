@@ -1,0 +1,10 @@
+{
+    "require": {
+        "slim/slim": "*",
+        "illuminate/console": "*",
+        "illuminate/events": "*",
+        "illuminate/filesystem": "*",
+        "illuminate/database": "*",
+        "palanik/corsslim": "^1.1"
+    }
+}

@@ -1,0 +1,115 @@
+{
+  "name": "Blog Admin",
+  "database_plugs": [
+    {
+      "plug": "mysql",
+      "name": "blog_admin",
+      "connection": {
+        "host": "localhost",
+        "port": "3306",
+        "user": "root",
+        "password": "ferat"
+      }
+    }
+  ],
+  "connectors_plugs": [
+    {
+      "type": "api",
+      "plug": "php-slim"
+    },
+    {
+      "type": "direct",
+      "plug": "nodejs-express"
+    }
+  ],
+  "spa_plugs": [
+    {
+      "plug": "angularjs-v2"
+    }
+  ],
+  "css_plugs": [
+    {
+      "plug": "bootstrap"
+    }
+  ],
+  "data": {
+    "objects": [
+      {
+        "name": "posts",
+        "name_singular": "post",
+        "child_of": [
+          "users",
+          "categories"
+        ],
+        "structure": [
+          {
+            "name": "title",
+            "type": "text",
+            "component": "input-text",
+            "size": "128",
+            "required": true
+          },
+          {
+            "name": "content",
+            "type": "text",
+            "component": "input-textarea",
+            "size": "no-limit",
+            "required": true
+          },
+          {
+            "name": "image",
+            "type": "file",
+            "component": "file-image"
+          }
+        ]
+      },
+      {
+        "name": "users",
+        "name_singular": "user",
+        "child_of": null,
+        "structure": [
+          {
+            "name": "name",
+            "type": "text",
+            "component": "input-text",
+            "size": "128",
+            "required": true
+          },
+          {
+            "name": "email",
+            "type": "text",
+            "component": "input-text",
+            "size": "64",
+            "required": true
+          },
+          {
+            "name": "password",
+            "type": "password",
+            "component": "input-password",
+            "size": "32",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "categories",
+        "name_singular": "category",
+        "child_of": null,
+        "structure": [
+          {
+            "name": "name",
+            "type": "text",
+            "component": "input-text",
+            "size": "128",
+            "required": true
+          },
+          {
+            "name": "image",
+            "type": "file",
+            "component": "file-image"
+          }
+        ]
+      }
+    ]
+  }
+}
