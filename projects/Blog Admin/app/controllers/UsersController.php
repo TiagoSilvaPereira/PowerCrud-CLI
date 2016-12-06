@@ -12,7 +12,7 @@ $app->get('/v1/users', function() use ($app) {
 $app->post('/v1/users', function() use ($app) {
 
   $request = \Slim\Slim::getInstance()->request();
-  $user_rq = json_decode($request->getBody());
+  $user_rq = (array) json_decode($request->getBody());
 
   $user = new Users();
 
@@ -39,11 +39,11 @@ $app->get('/v1/users/:id', function($id) use ($app) {
 $app->put('/v1/users/:id', function($id) use ($app) {
 
   $request = \Slim\Slim::getInstance()->request();
-  $user_rq = json_decode($request->getBody());
+  $user_rq = (array) json_decode($request->getBody());
 
   $user = Users::find($id);
 
- if($user->save($user_rq)){
+  if($user->update($user_rq)){
     return  helpers::jsonResponse(false, 'Users saved', 0, array('id' => $user->id));
   }else{
     return  helpers::jsonResponse(true, 'Users save failed', 0);

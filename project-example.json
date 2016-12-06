@@ -1,5 +1,6 @@
 {
   "name": "Blog Admin",
+  "output_directory": "C:/MyProjects/Projects",
   "database_plugs": [
     {
       "plug": "mysql",
@@ -15,7 +16,7 @@
   "connectors_plugs": [
     {
       "type": "api",
-      "plug": "php-slim"
+      "plug": "api-php-slim"
     },
     {
       "type": "direct",

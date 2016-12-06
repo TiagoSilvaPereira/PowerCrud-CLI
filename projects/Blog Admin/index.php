@@ -42,7 +42,7 @@ require_once _APP . "/controllers/PostsController.php";
 
 
 # Raiz
-$app->get('/', $authentication, function () {
+$app->get('/', function () {
 	echo json_encode("API - Generated with love by PowerCRUD");
 });
 

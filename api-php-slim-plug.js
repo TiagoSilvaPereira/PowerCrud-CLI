@@ -10,13 +10,14 @@ module.exports = {
         this.plugUtils = require('./plug-utils');
 
         this.project = project;
-        this.projectFolder = './projects/' + this.project.name;
+        this.projectFolder = this.plugUtils.outputDirectory(project, 'api');
         this.databaseConfig = this.getDatabaseConfig();
 
         this.copyFolder(function() {
             this.makeConfigFiles();
             this.makeRequires();
             this.makeModelsAndControllers();
+            this.afterMakeAPI();
         }.bind(this));
     },
 
@@ -38,7 +39,7 @@ module.exports = {
             var connection = this.databaseConfig.connection;
             textData = this.plugUtils.replaceCode(textData, 'driver', this.databaseConfig.plug);
             textData = this.plugUtils.replaceCode(textData, 'database', this.databaseConfig.name);
-            textData = this.plugUtils.replaceCode(textData, 'host', connection.plug);
+            textData = this.plugUtils.replaceCode(textData, 'host', connection.host);
             textData = this.plugUtils.replaceCode(textData, 'username', connection.user);
             textData = this.plugUtils.replaceCode(textData, 'password', connection.password);
 
@@ -87,6 +88,7 @@ module.exports = {
     makeModel: function(object) {
         this.readFile('app/models/baseModel.php', function(textData) {
             textData = this.plugUtils.replaceCode(textData, 'Model', this.plugUtils.capitalize(object.name));
+            textData = this.plugUtils.replaceCode(textData, 'ModelSingular', this.plugUtils.capitalize(object.name_singular));
             textData = this.plugUtils.replaceCode(textData, 'table', object.name);
             textData = this.plugUtils.replaceCode(textData, 'fields', this.makeFillableFiels(object));
 
@@ -106,6 +108,7 @@ module.exports = {
     makeController: function(object) {
         this.readFile('app/controllers/baseController.php', function(textData) {
             textData = this.plugUtils.replaceCode(textData, 'Model', this.plugUtils.capitalize(object.name));
+            textData = this.plugUtils.replaceCode(textData, 'ModelSingular', this.plugUtils.capitalize(object.name_singular));
             textData = this.plugUtils.replaceCode(textData, 'url_suffix', object.name);
             textData = this.plugUtils.replaceCode(textData, 'object', object.name_singular);
 
@@ -114,7 +117,13 @@ module.exports = {
     },
 
     afterMakeAPI: function() {
+        // It runs a PHP Server in the API directory
+        /*var exec = require('child_process').exec;
+        var cmd = 'cd ' + this.plugUtils.outputDirectory(this.project, 'api') + '&php -S localhost:5000';
 
+        exec(cmd, function(error, stdout, stderr) {
+          if(error) throw error;
+        });*/
     },
 
     readFile: function(file, successCallback) {

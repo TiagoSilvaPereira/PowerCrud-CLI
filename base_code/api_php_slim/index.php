@@ -31,12 +31,13 @@ require_once _APP . '/helpers/appHelpers.php';
 
 // Models
 {{require_models}}
+require_once _APP . "/models/FilesModel.php";
 
 // Controllers
 {{require_controllers}}
 
 # Raiz
-$app->get('/', $authentication, function () {
+$app->get('/', function () {
 	echo json_encode("API - Generated with love by PowerCRUD");
 });
 

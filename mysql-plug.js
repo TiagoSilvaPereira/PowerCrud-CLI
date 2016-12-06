@@ -51,13 +51,20 @@ module.exports = {
 
     createDataSql: function(data) {
         var sql = '';
+        sql += this.createFilesTableSql();
+
         data.objects.forEach(function(object){
             sql += 'CREATE TABLE IF NOT EXISTS ' + object.name + '(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY';
             
             object.structure.forEach(function(field){
-                sql += ', ' + field.name + this.fieldType(field) + this.fieldRequired(field);
+                if(field.type == 'file') {
+                    sql += this.fileFieldFk(object.name, field.name);
+                }else{
+                    sql += ', ' + field.name + this.fieldType(field) + this.fieldRequired(field);
+                }
             }.bind(this));
 
+            // If the object has parents
             if(object.child_of) {
                 object.child_of.forEach(function(parent){
                     sql += this.fieldFk(object.name, parent);
@@ -73,6 +80,21 @@ module.exports = {
         return sql;
     },
 
+    createFilesTableSql: function() {
+        return "CREATE TABLE IF NOT EXISTS `files` (" +
+                    "`id` INT(11) NOT NULL AUTO_INCREMENT," +
+                    "`name` VARCHAR(64) NOT NULL DEFAULT ''," +
+                    "`type` VARCHAR(32) NOT NULL DEFAULT ''," +
+                    "`extension` VARCHAR(16) NOT NULL DEFAULT ''," +
+                    "`url` VARCHAR(16) NOT NULL DEFAULT ''," +
+                    "`responsible` VARCHAR(64) NOT NULL DEFAULT ''," +
+                    "`created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP," +
+                    "`updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
+                    "PRIMARY KEY (`id`)" +
+                ")" +
+                "ENGINE=INNODB; ";
+    },
+
     fieldType: function(field) {
         if(field.type == 'text') {
             return (field.size == 'no-limit') ? ' TEXT ' : ' VARCHAR(' + field.size + ') ';
@@ -81,8 +103,11 @@ module.exports = {
             return (field.size == 'no-limit') ? ' TEXT ' : ' VARCHAR(' + field.size + ') ';
         }else
         if(field.type == 'file') {
-            return ' VARCHAR(256) ';
+            // File fields are created by fileFieldFk
+            return '';
         }
+
+        return '';
     },
 
     fieldFk: function(objectName, field) {
@@ -90,6 +115,11 @@ module.exports = {
 
         return ', ' + fkName + ' INT, ' + 'INDEX ' + objectName + '_' + fkName + ' (' 
                     + fkName + '), Foreign Key(' + fkName + ') references ' + field + '(id)';
+    },
+
+    fileFieldFk: function(objectName, childField) {
+        return ', ' + childField + ' INT, ' + 'INDEX ' + objectName + '_' + childField + ' (' 
+                    + childField + '), Foreign Key(' + childField + ') references files (id)';
     },
 
     fieldRequired(field) {

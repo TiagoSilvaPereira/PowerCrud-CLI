@@ -12,7 +12,7 @@ $app->get('/v1/posts', function() use ($app) {
 $app->post('/v1/posts', function() use ($app) {
 
   $request = \Slim\Slim::getInstance()->request();
-  $post_rq = json_decode($request->getBody());
+  $post_rq = (array) json_decode($request->getBody());
 
   $post = new Posts();
 
@@ -39,11 +39,11 @@ $app->get('/v1/posts/:id', function($id) use ($app) {
 $app->put('/v1/posts/:id', function($id) use ($app) {
 
   $request = \Slim\Slim::getInstance()->request();
-  $post_rq = json_decode($request->getBody());
+  $post_rq = (array) json_decode($request->getBody());
 
   $post = Posts::find($id);
 
- if($post->save($post_rq)){
+  if($post->update($post_rq)){
     return  helpers::jsonResponse(false, 'Posts saved', 0, array('id' => $post->id));
   }else{
     return  helpers::jsonResponse(true, 'Posts save failed', 0);

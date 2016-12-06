@@ -13,17 +13,14 @@ module.exports = {
 
     setupConnectors: function() {
         this.connectors.forEach(function(connector){
-            if(connector.type == 'api') {
-                this.setupAPIConnector(connector);
+            if(connector.type == 'api'){
+                var connectorPlug = this.choosePlug(connector);
+                connectorPlug.init(this.project);
             }
         }.bind(this));
     },
 
-    setupAPIConnector: function(connector) {
-        // Essa parte pode ser desnecessária, verificar!!!
-        var apiConnector = require('./api-connector');
-        apiConnector.init(connector);
-        var plug = apiConnector.chooseAPIPlug();
-        plug.init(this.project);
+    choosePlug: function(connector) {
+        return require('./' + connector.plug + '-plug');
     }
 }

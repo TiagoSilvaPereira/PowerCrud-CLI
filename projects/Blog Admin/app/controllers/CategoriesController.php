@@ -12,7 +12,7 @@ $app->get('/v1/categories', function() use ($app) {
 $app->post('/v1/categories', function() use ($app) {
 
   $request = \Slim\Slim::getInstance()->request();
-  $category_rq = json_decode($request->getBody());
+  $category_rq = (array) json_decode($request->getBody());
 
   $category = new Categories();
 
@@ -39,11 +39,11 @@ $app->get('/v1/categories/:id', function($id) use ($app) {
 $app->put('/v1/categories/:id', function($id) use ($app) {
 
   $request = \Slim\Slim::getInstance()->request();
-  $category_rq = json_decode($request->getBody());
+  $category_rq = (array) json_decode($request->getBody());
 
   $category = Categories::find($id);
 
- if($category->save($category_rq)){
+  if($category->update($category_rq)){
     return  helpers::jsonResponse(false, 'Categories saved', 0, array('id' => $category->id));
   }else{
     return  helpers::jsonResponse(true, 'Categories save failed', 0);

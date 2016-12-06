@@ -2,7 +2,7 @@
 // Database configuration
 $settings = array(
   'driver'    => 'mysql',
-  'host'      => 'undefined',
+  'host'      => 'localhost',
   'database'  => 'blog_admin',
   'username'  => 'root',
   'password'  => 'ferat',

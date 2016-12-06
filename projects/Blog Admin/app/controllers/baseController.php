@@ -12,7 +12,7 @@ $app->get('/v1/{{url_suffix}}', function() use ($app) {
 $app->post('/v1/{{url_suffix}}', function() use ($app) {
 
   $request = \Slim\Slim::getInstance()->request();
-  ${{object}}_rq = json_decode($request->getBody());
+  ${{object}}_rq = (array) json_decode($request->getBody());
 
   ${{object}} = new {{Model}}();
 
@@ -39,11 +39,11 @@ $app->get('/v1/{{url_suffix}}/:id', function($id) use ($app) {
 $app->put('/v1/{{url_suffix}}/:id', function($id) use ($app) {
 
   $request = \Slim\Slim::getInstance()->request();
-  ${{object}}_rq = json_decode($request->getBody());
+  ${{object}}_rq = (array) json_decode($request->getBody());
 
   ${{object}} = {{Model}}::find($id);
 
- if(${{object}}->save(${{object}}_rq)){
+  if(${{object}}->update(${{object}}_rq)){
     return  helpers::jsonResponse(false, '{{Model}} saved', 0, array('id' => ${{object}}->id));
   }else{
     return  helpers::jsonResponse(true, '{{Model}} save failed', 0);
