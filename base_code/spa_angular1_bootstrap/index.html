@@ -1,0 +1,48 @@
+<!doctype html>
+<html ng-app="{%angularAppName%}">
+    <head>
+        <title>{%appName%}</title>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/app.css">
+        <base href="/">
+    </head>
+    <body>
+        <header class="header-view" ui-view="header"></header>
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <div class="sidebar-view" ui-view="sidebar" ng-class="{'show': showSidebar}"></div>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div class="main-content">
+                        <div class="breadcrumb-view" ui-view="breadcrumb"></div>
+                        <div class="main-view" ui-view="main"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer-view" ui-view="footer"></footer>
+    </body>
+    
+    <!-- Node Modules -->
+    <script src="/node_modules/angular/angular.min.js"></script>
+    <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/node_modules/angular-animate/angular-animate.min.js"></script>
+    <script src="/node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+    <script src="/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+    <script src="/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+
+    <!-- App Modules -->
+    <script src="/app/app.config.js"></script>
+    <script src="/app/app.modules.js"></script>
+    <script src="/app/app.states.js"></script>
+
+    <!-- Home -->
+    <script src="/app/components/home/home.controller.js"></script>
+
+{%insertScripts%}
+
+</html>

@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class {{Model}} extends Model
+class {%Model%} extends Model
 {
-    protected $table = '{{table}}';
+    protected $table = '{%table%}';
     protected $fillable = [
-        {{fields}}
+        {%fields%}
     ];
 }

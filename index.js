@@ -5,6 +5,7 @@ var filter = require('./filter');
 var structure = require('./structure');
 var database = require('./database');
 var connector = require('./connector');
+var spa = require('./spa');
 
 var fileName = String(process.argv[2] || '');
 if(!fileName) console.log('USAGE: node index.js name_project.json');
@@ -24,6 +25,7 @@ fs.readFile(fileName, 'utf-8', function(err, data) {
         structure.init(project, function(){
             database.init(project);
             connector.init(project);
+            spa.init(project);
         });
 
     }catch(e){

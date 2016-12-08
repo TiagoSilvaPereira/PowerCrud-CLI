@@ -1,11 +1,11 @@
 <?php
 // Database configuration
 $settings = array(
-  'driver'    => '{{driver}}',
-  'host'      => '{{host}}',
-  'database'  => '{{database}}',
-  'username'  => '{{username}}',
-  'password'  => '{{password}}',
+  'driver'    => '{%driver%}',
+  'host'      => '{%host%}',
+  'database'  => '{%database%}',
+  'username'  => '{%username%}',
+  'password'  => '{%password%}',
   'charset'   => 'utf8',
   'collation' => 'utf8_general_ci',
   'prefix'    => ''

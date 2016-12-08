@@ -3,7 +3,7 @@
 $settings = array(
   'driver'    => 'mysql',
   'host'      => 'localhost',
-  'database'  => 'top_empresas',
+  'database'  => 'database_name',
   'username'  => 'root',
   'password'  => '',
   'charset'   => 'utf8',

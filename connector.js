@@ -3,6 +3,7 @@
 module.exports = {
     init: function(project) {
         this.project = project;
+        this.plugUtils = require('./plug-utils');
         this.connectors = this.getConnectors();
         this.setupConnectors();
     },
@@ -14,13 +15,9 @@ module.exports = {
     setupConnectors: function() {
         this.connectors.forEach(function(connector){
             if(connector.type == 'api'){
-                var connectorPlug = this.choosePlug(connector);
+                var connectorPlug = this.plugUtils.choosePlug(connector);
                 connectorPlug.init(this.project);
             }
         }.bind(this));
-    },
-
-    choosePlug: function(connector) {
-        return require('./' + connector.plug + '-plug');
     }
 }

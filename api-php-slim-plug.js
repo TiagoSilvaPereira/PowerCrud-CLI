@@ -3,17 +3,19 @@
 module.exports = {
     init: function(project) {
 
-        console.log('Selected Plug: PHP - Slim - API');
+        console.log('Selected API Plug: PHP - Slim');
         
         this.ncp = require('ncp').ncp;
         this.fs = require('fs');
         this.plugUtils = require('./plug-utils');
 
         this.project = project;
-        this.projectFolder = this.plugUtils.outputDirectory(project, 'api');
         this.databaseConfig = this.getDatabaseConfig();
 
-        this.copyFolder(function() {
+        // API Project Folder
+        this.projectFolder = this.plugUtils.outputDirectory(project, 'api');
+
+        this.plugUtils.copyFolder('./base_code/api_php_slim', this.projectFolder, function() {
             this.makeConfigFiles();
             this.makeRequires();
             this.makeModelsAndControllers();
@@ -23,14 +25,6 @@ module.exports = {
 
     getDatabaseConfig: function() {
         return this.project.database_plugs[0];
-    },
-
-    copyFolder: function(successCallback) {
-        this.ncp('./base_code/api_php_slim', this.projectFolder, function(err){
-            if(err) throw err;
-            console.log('Project Folder Created!!');
-            if(successCallback) successCallback();
-        })
     },
 
     makeConfigFiles: function() {

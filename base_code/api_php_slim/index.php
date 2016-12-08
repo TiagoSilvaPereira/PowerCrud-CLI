@@ -30,11 +30,11 @@ require_once _APP . '/config/config.php';
 require_once _APP . '/helpers/appHelpers.php';
 
 // Models
-{{require_models}}
+{%require_models%}
 require_once _APP . "/models/FilesModel.php";
 
 // Controllers
-{{require_controllers}}
+{%require_controllers%}
 
 # Raiz
 $app->get('/', function () {

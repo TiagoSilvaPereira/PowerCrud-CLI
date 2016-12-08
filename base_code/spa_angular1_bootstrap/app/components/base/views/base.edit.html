@@ -1,0 +1,15 @@
+<form ng-submit="vm.save{%Object%}()">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" id="name" placeholder="{%Object%} Name" ng-model="vm.{%object%}.name">
+  </div>
+  <div class="form-group" ng-if="vm.{%object%}.id">
+    <label for="exampleInputFile">Image</label>
+    <!-- File Uploader -->
+    <div>
+      <img ngf-thumbnail="file || vm.config.UploadAddress + '/{%objects%}/' + vm.{%object%}.image_file.name" width="150">
+      <div class="btn btn-default" ngf-select="vm.uploadFile($file, 'image_file')" ng-model="file" ngf-pattern="'image/*'" ngf-accept="'image/*'">Select Files</div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success">Save</button>
+</form>
