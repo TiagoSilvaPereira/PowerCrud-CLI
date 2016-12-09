@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('{%angularAppName%}.services')
-        .service('{%objects%}Service', {%objects%}Service);
+           .service('{%objects%}Service', {%objects%}Service);
 
     {%objects%}Service.$inject = ['$http', 'Upload', 'CONFIG'];
 

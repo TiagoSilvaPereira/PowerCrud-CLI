@@ -6,14 +6,13 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Action</th>
+{%headerFields%}
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="{%object%} in vm.{%objects%}">
                     <td><span>{{{%object%}.id}}</span></td>
-                    <td><span>{{{%object%}.name}}</span></td>
+{%listFields%}
                     <td>
                         <a class="btn btn-primary" ui-sref="root.{%objects%}.edit({id: {%object%}.id})" href="#/{%objects%}/{{{%object%}.id}}">Edit</a>
                         <a class="btn btn-danger" ng-click="vm.delete{%Object%}({%object%}.id)">Remove</a>

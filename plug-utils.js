@@ -34,7 +34,47 @@ module.exports = {
 
         fileCopy(sourceDir, destinyDir, function(err){
             if(err) throw err;
-            console.log(destinyDir,'Folder Created!!');
+            console.log(destinyDir,' - Folder Created!!');
+            if(successCallback) successCallback();
+        })
+    },
+
+    makeDirectory: function(path, successCallback) {
+        var fs = require('fs');
+        fs.mkdir(path, function(err, data) {
+            if (err) throw err;
+            console.log('Directory',path,'created!');
+            if(successCallback) successCallback();
+        });
+    },
+
+    /*
+     * With this method, you can create a new file using a base file. And, if you need, you can manipulate
+     * the data of the base file before save the destination file
+     */
+    fileFromBaseFile: function(baseFile, destFile, manipulatorCallback) {
+        this.readFile(baseFile, (textData) => {
+            if(manipulatorCallback) 
+                textData = manipulatorCallback(textData);
+
+            this.writeFile(destFile, textData);
+        });
+    },
+
+    readFile: function(filePath, successCallback) {
+        var fs = require('fs');
+        fs.readFile(filePath, 'utf-8', function(err, data) {
+            if (err) throw err;
+            if(successCallback) successCallback(data);
+        });
+    },
+
+    writeFile: function(filePath, content, successCallback) {
+        var fs = require('fs');
+        
+        fs.writeFile(filePath, content, function(err) {
+            if (err) throw err;
+            console.log('File ' + filePath +  ' created!');
             if(successCallback) successCallback();
         })
     },
