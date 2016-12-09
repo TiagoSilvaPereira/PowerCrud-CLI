@@ -233,7 +233,7 @@ module.exports = {
         let code = 
         '\t<div class="form-group">\n'+
             '\t\t<label for="' + field.name + '">' + this.plugUtils.capitalize(field.name) + '</label>\n'+
-            '\t\t<input' + required + ' type="' + componentType + '" class="form-control" ng-model="vm.{%object%}.' + field.name + '">\n'+
+            '\t\t<input ' + required + ' type="' + componentType + '" class="form-control" ng-model="vm.{%object%}.' + field.name + '">\n'+
         '\t</div>\n';
 
         return code;
@@ -241,11 +241,11 @@ module.exports = {
 
     textAreaFieldCode: function(field) {
         let required = (field.required) ? 'required="required"' : '';
-        
+
         let code = 
         '\t<div class="form-group">\n'+
             '\t\t<label for="' + field.name + '">' + this.plugUtils.capitalize(field.name) + '</label>\n'+
-            '\t\t<textarea' + required + ' class="form-control" ng-model="vm.{%object%}.' + field.name + '"></textarea>\n'+
+            '\t\t<textarea ' + required + ' class="form-control" ng-model="vm.{%object%}.' + field.name + '"></textarea>\n'+
         '\t</div>\n';
 
         return code;

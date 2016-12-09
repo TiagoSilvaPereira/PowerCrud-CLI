@@ -9,7 +9,8 @@ module.exports = {
 
     /* Input Helpers*/
     isInputField: function(field) {
-        return (field.component == 'text' || field.component == 'number' || field.component == 'password');
+        return (field.component == 'text' || field.component == 'number' 
+            || field.component == 'password' || field.component == 'email');
     },
 
     isTextAreaField: function(field) {
