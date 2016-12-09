@@ -13,11 +13,13 @@ module.exports = {
             dirProject = plugUtils.outputDirectory(this.project),
             dirApi = plugUtils.outputDirectory(this.project, 'api'),
             dirSpa = plugUtils.outputDirectory(this.project, 'spa'),
-            dirWeb = plugUtils.outputDirectory(this.project, 'web');
+            dirWeb = plugUtils.outputDirectory(this.project, 'web'),
+            dirShared = plugUtils.outputDirectory(this.project, 'shared');
 
         if (!fs.existsSync(dirProject)){ fs.mkdirSync(dirProject); }
         if (!fs.existsSync(dirApi)){ fs.mkdirSync(dirApi); }
         if (!fs.existsSync(dirSpa)){ fs.mkdirSync(dirSpa); }
         if (!fs.existsSync(dirWeb)){ fs.mkdirSync(dirWeb); }
+        if (!fs.existsSync(dirShared)){ fs.mkdirSync(dirShared); }
     }
 }

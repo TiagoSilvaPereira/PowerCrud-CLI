@@ -1,6 +1,30 @@
 'use strict';
 
 module.exports = {
+
+    /* Plug Helpers */
+    choosePlug: function(plugObject) {
+        return require('./' + plugObject.plug + '-plug');
+    },
+
+    /* Input Helpers*/
+    isInputField: function(field) {
+        return (field.component == 'text' || field.component == 'number' || field.component == 'password');
+    },
+
+    isTextAreaField: function(field) {
+        return (field.component == 'textarea');
+    },
+
+    isFileField: function(field) {
+        return (field.component == 'file');
+    },
+
+    isFileImageField: function(field) {
+        return (field.component == 'file-image');
+    },
+
+    /* Code Helpers */
     replaceCode: function(content, variable, replacement) {
         var re = new RegExp('{%' + variable + '%}', 'g');
         return content.replace(re, replacement);
@@ -20,13 +44,10 @@ module.exports = {
       }).replace(/\s+/g, '');
     },
 
+    /* Directory and Files Helpers */
     outputDirectory: function(project, subDirectory) {
         subDirectory = (subDirectory) ? '/' + subDirectory : '';
         return (project.output_directory || './projects') + '/' + project.name + subDirectory;
-    },
-
-    choosePlug: function(plugObject) {
-        return require('./' + plugObject.plug + '-plug');
     },
 
     copyFolder: function(sourceDir, destinyDir, successCallback) {

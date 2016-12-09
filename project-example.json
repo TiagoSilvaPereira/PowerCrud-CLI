@@ -4,12 +4,12 @@
   "database_plugs": [
     {
       "plug": "mysql",
-      "name": "blog_admin",
+      "name": "blog_admin2",
       "connection": {
         "host": "localhost",
         "port": "3306",
         "user": "root",
-        "password": "ferat"
+        "password": ""
       }
     }
   ],
@@ -25,7 +25,7 @@
   ],
   "spa_plugs": [
     {
-      "plug": "angularjs-v2"
+      "plug": "spa-angular1-bootstrap"
     }
   ],
   "css_plugs": [
@@ -46,21 +46,29 @@
           {
             "name": "title",
             "type": "text",
-            "component": "input-text",
+            "component": "text",
             "size": "128",
-            "required": true
+            "required": true,
+            "in_list": true
           },
           {
             "name": "content",
             "type": "text",
-            "component": "input-textarea",
+            "component": "textarea",
             "size": "no-limit",
             "required": true
           },
           {
             "name": "image",
             "type": "file",
-            "component": "file-image"
+            "component": "file-image",
+            "accept": "image/*"
+          },
+          {
+            "name": "attachment",
+            "type": "file",
+            "component": "file",
+            "accept": "audio/*,video/*,image/*"
           }
         ]
       },
@@ -72,21 +80,23 @@
           {
             "name": "name",
             "type": "text",
-            "component": "input-text",
+            "component": "text",
             "size": "128",
-            "required": true
+            "required": true,
+            "in_list": true
           },
           {
             "name": "email",
             "type": "text",
-            "component": "input-text",
+            "component": "text",
             "size": "64",
-            "required": true
+            "required": true,
+            "in_list": true
           },
           {
             "name": "password",
             "type": "password",
-            "component": "input-password",
+            "component": "password",
             "size": "32",
             "required": true
           }
@@ -100,14 +110,16 @@
           {
             "name": "name",
             "type": "text",
-            "component": "input-text",
+            "component": "text",
             "size": "128",
-            "required": true
+            "required": true,
+            "in_list": true
           },
           {
             "name": "image",
             "type": "file",
-            "component": "file-image"
+            "component": "file-image",
+            "accept": "image/*"
           }
         ]
       }

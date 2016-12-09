@@ -105,9 +105,22 @@ module.exports = {
             textData = this.plugUtils.replaceCode(textData, 'ModelSingular', this.plugUtils.capitalize(object.name_singular));
             textData = this.plugUtils.replaceCode(textData, 'url_suffix', object.name);
             textData = this.plugUtils.replaceCode(textData, 'object', object.name_singular);
+            textData = this.plugUtils.replaceCode(textData, 'returnFiles', this.makeReturnFiles(object));
 
             this.writeFile('app/controllers/' + this.plugUtils.capitalize(object.name) + 'Controller.php', textData);
         }.bind(this));
+    },
+
+    makeReturnFiles: function(object) {
+        var filesCode = '';
+
+        object.structure.forEach(function(field){
+            if(field.type == 'file') {
+                filesCode += '\t$' + object.name_singular + '->' + field.name + 
+                             ' = Files::find($' + object.name_singular + '->' + field.name + ');\n';
+            }
+        });
+        return filesCode;
     },
 
     afterMakeAPI: function() {

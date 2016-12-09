@@ -16,6 +16,7 @@ module.exports = {
             this.setAppName();
             this.makeInsertScripts();
             this.makeAngularStates();
+            this.makeSideMenu();
             this.makeAllModules();
         });
 
@@ -24,7 +25,9 @@ module.exports = {
     setAppName: function() {
         let files = [
             this.projectFolder + '/*.html',
-            this.projectFolder + '/app/*.js'
+            this.projectFolder + '/app/*.js',
+            this.projectFolder + '/app/components/home/*.js',
+            this.projectFolder + '/app/components/layout/views/*.html'
         ];
 
         this.plugUtils.replaceInFiles(files, 'appName', this.project.name);
@@ -88,6 +91,18 @@ module.exports = {
         return code;
     },
 
+    makeSideMenu: function() {
+        let menuItemsCode = '';
+
+        this.project.data.objects.forEach((object) => {
+            menuItemsCode += '\t\t<li role="presentation"><a href="#" ui-sref="root.' + object.name + '">' +
+            this.plugUtils.capitalize(object.name) + '</a></li>\n';
+        });
+
+        this.plugUtils.replaceInFiles(this.projectFolder + '/app/components/layout/views/sidebar.html', 
+            'menuItems', menuItemsCode);
+    },
+
     makeAllModules: function() {
         this.project.data.objects.forEach((object) => {
             this.makeModule(object);
@@ -112,6 +127,7 @@ module.exports = {
 
         this.plugUtils.makeDirectory(viewsDestDir, () => {
             this.makeListViewFile(object);
+            this.makeEditViewFile(object);
         });
     },
 
@@ -147,8 +163,8 @@ module.exports = {
             destFile = this.projectFolder + '/app/components/' + object.name + '/views/' + object.name + '.list.html';
 
         this.plugUtils.fileFromBaseFile(baseFile, destFile, (code) => {
-            code = this.replaceDefaultCode(code, object);
             code = this.replaceObjectsListCode(code,object);
+            code = this.replaceDefaultCode(code, object);
             return code;
         });
     },
@@ -182,7 +198,70 @@ module.exports = {
     },
 
     makeEditViewFile: function(object) {
-        let baseFile = this.sourcePath + '/app/components/base/views/base.edit.html';
+        let baseFile = this.sourcePath + '/app/components/base/views/base.edit.html',
+            destFile = this.projectFolder + '/app/components/' + object.name + '/views/' + object.name + '.edit.html';
+
+        this.plugUtils.fileFromBaseFile(baseFile, destFile, (code) => {
+            code = this.replaceFormFieldsCode(code,object);
+            code = this.replaceDefaultCode(code, object);
+            return code;
+        });
+    },
+
+    replaceFormFieldsCode: function(code, object) {
+        let fieldsCode = '';
+
+        object.structure.forEach((field) => {
+            if(this.plugUtils.isInputField(field)){
+                fieldsCode += this.inputFieldCode(field, field.component); 
+            }else
+            if(this.plugUtils.isTextAreaField(field)){
+                fieldsCode += this.textAreaFieldCode(field);
+            }else
+            if(this.plugUtils.isFileImageField(field)){
+                fieldsCode += this.fileImageFieldCode(field);
+            }
+        });
+
+        code = this.plugUtils.replaceCode(code, 'formFields', fieldsCode);
+        return code;
+    },
+
+    inputFieldCode: function(field, componentType) {
+        let code = 
+        '\t<div class="form-group">\n'+
+            '\t\t<label for="' + field.name + '">' + this.plugUtils.capitalize(field.name) + '</label>\n'+
+            '\t\t<input type="' + componentType + '" class="form-control" ng-model="vm.{%object%}.' + field.name + '">\n'+
+        '\t</div>\n';
+
+        return code;
+    },
+
+    textAreaFieldCode: function(field) {
+        let code = 
+        '\t<div class="form-group">\n'+
+            '\t\t<label for="' + field.name + '">' + this.plugUtils.capitalize(field.name) + '</label>\n'+
+            '\t\t<textarea class="form-control" ng-model="vm.{%object%}.' + field.name + '"></textarea>\n'+
+        '\t</div>\n';
+
+        return code;
+    },
+
+    fileUploadFieldCode: function(field) {
+        return '';
+    },
+
+    fileImageFieldCode: function(field) {
+        let code = 
+        '\t<div class="form-group" ng-if="vm.{%object%}.id">\n'+
+            '\t\t<label for="' + field.name + '">Image</label>\n'+
+            '\t\t<div>\n'+
+              '\t\t\t<img ngf-thumbnail="file || vm.config.UploadAddress + \'/{%objects%}/\' + vm.{%object%}.' + field.name + '.name" width="150">\n'+
+              '\t\t\t<div class="btn btn-default" ngf-select="vm.uploadFile($file, \'' + field.name + '\')" ng-model="file" ngf-pattern="\'image/*\'" ngf-accept="\'image/*\'">Select Files</div>\n'+
+            '\t\t</div>\n'+
+        '\t</div>\n';
+
+        return code;
     },
 
     /*

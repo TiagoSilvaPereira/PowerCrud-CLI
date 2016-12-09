@@ -15,7 +15,7 @@ $app->post('/v1/{%url_suffix%}', function() use ($app) {
     ${%object%}_rq = (array) json_decode($request->getBody());
 
     $new{%ModelSingular%} = new {%Model%}();
-    ${%object%} = $new{%ModelSingular%}->create(${%object%}_rq)
+    ${%object%} = $new{%ModelSingular%}->create(${%object%}_rq);
 
     if(${%object%}){
         return  helpers::jsonResponse(false, '{%ModelSingular%} created', 0, array('id' => ${%object%}->id));
@@ -28,6 +28,7 @@ $app->post('/v1/{%url_suffix%}', function() use ($app) {
 $app->get('/v1/{%url_suffix%}/:id', function($id) use ($app) {
 
     ${%object%} = {%Model%}::find($id);
+{%returnFiles%}
 
     if(!empty(${%object%})){
         return  helpers::jsonResponse(false, '{%ModelSingular%} found', 1, ${%object%});
