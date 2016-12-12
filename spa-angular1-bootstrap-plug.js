@@ -154,8 +154,42 @@ module.exports = {
             destFile = this.projectFolder + '/app/components/' + object.name + '/' + object.name + '.edit.controller.js';
 
         this.plugUtils.fileFromBaseFile(baseFile, destFile, (code) => {
-            return this.replaceDefaultCode(code, object);
+            code = this.replaceOtherServicesCode(code, object);
+            code = this.replaceDefaultCode(code, object);
+            return code;
         });
+    },
+
+    replaceOtherServicesCode: function(code, object) {
+        let injectServicesCode = '', servicesCode = '', functionsCode = '', functionsCallCode = '';
+
+        if(object.child_of){
+            object.child_of.forEach((foreignName) => {
+                injectServicesCode += '\'' + foreignName + 'Service\', ';
+                servicesCode += foreignName + 'Service, ';
+                functionsCallCode += '\t\t\tget' + this.plugUtils.capitalize(foreignName) + '();\n';
+                functionsCode += this.replaceGetObjectsCode(foreignName);
+            });
+        }
+
+        code = this.plugUtils.replaceCode(code, 'injectOtherServices', injectServicesCode);
+        code = this.plugUtils.replaceCode(code, 'otherServices', servicesCode);
+        code = this.plugUtils.replaceCode(code, 'getForeignObjects', functionsCode);
+        code = this.plugUtils.replaceCode(code, 'foreignFunctionsCall', functionsCallCode);
+        return code;
+    },
+
+    replaceGetObjectsCode: function(objectName) {
+        let code =
+        '\t\tfunction get' + this.plugUtils.capitalize(objectName) + '() {\n'+
+            '\t\t\t' + objectName + 'Service.get' + this.plugUtils.capitalize(objectName) + '().then(\n'+
+            '\t\t\tfunction(response){\n'+
+                '\t\t\t\tvm.' + objectName + ' = response.data.data;\n'+
+            '\t\t\t},\n'+
+            '\t\t\tfunction(error){console.error(error)});\n'+
+        '\t\t}\n\n';
+
+        return code;
     },
 
     makeListViewFile: function(object) {
@@ -203,9 +237,40 @@ module.exports = {
 
         this.plugUtils.fileFromBaseFile(baseFile, destFile, (code) => {
             code = this.replaceFormFieldsCode(code,object);
+            code = this.replaceForeignSelectsCode(code, object);
             code = this.replaceDefaultCode(code, object);
             return code;
         });
+    },
+
+    replaceForeignSelectsCode: function(code, object) {
+        let selectsCode = '';
+
+        if(object.child_of){
+            object.child_of.forEach((foreignName) => {
+                let foreignObject = this.plugUtils.getObjectByName(this.project, foreignName);
+                if(foreignObject)
+                    selectsCode += this.foreignSelectFieldCode(foreignObject);
+            });
+        }
+
+        code = this.plugUtils.replaceCode(code, 'foreignSelectsFields', selectsCode);
+        return code;
+    },
+
+    foreignSelectFieldCode: function(foreignObject) {
+        let code = 
+        '\t<div class="form-group">\n'+
+            '\t\t<label for="content">' + this.plugUtils.capitalize(foreignObject.name_singular) + '</label>\n'+
+            '\t\t<select class="form-control" id="' + foreignObject.name + '_id"\n'+
+            '\t\tng-options="' + foreignObject.name_singular + '.id as ' + foreignObject.name_singular + 
+            '.name for ' + foreignObject.name_singular + ' in vm.' + foreignObject.name + '"\n'+
+            '\t\tng-model="vm.{%object%}.' + foreignObject.name + '_id" required>\n'+
+                '\t\t\t<option value="">---</option>\n'+
+            '\t\t</select>\n'+
+        '\t</div>\n\n';
+
+        return code;
     },
 
     replaceFormFieldsCode: function(code, object) {
@@ -234,7 +299,7 @@ module.exports = {
         '\t<div class="form-group">\n'+
             '\t\t<label for="' + field.name + '">' + this.plugUtils.capitalize(field.name) + '</label>\n'+
             '\t\t<input ' + required + ' type="' + componentType + '" class="form-control" ng-model="vm.{%object%}.' + field.name + '">\n'+
-        '\t</div>\n';
+        '\t</div>\n\n';
 
         return code;
     },
@@ -246,7 +311,7 @@ module.exports = {
         '\t<div class="form-group">\n'+
             '\t\t<label for="' + field.name + '">' + this.plugUtils.capitalize(field.name) + '</label>\n'+
             '\t\t<textarea ' + required + ' class="form-control" ng-model="vm.{%object%}.' + field.name + '"></textarea>\n'+
-        '\t</div>\n';
+        '\t</div>\n\n';
 
         return code;
     },
@@ -263,7 +328,7 @@ module.exports = {
               '\t\t\t<img ngf-thumbnail="file || vm.config.UploadAddress + \'/{%objects%}/\' + vm.{%object%}.' + field.name + '.name" width="150">\n'+
               '\t\t\t<div class="btn btn-default" ngf-select="vm.uploadFile($file, \'' + field.name + '\')" ng-model="file" ngf-pattern="\'image/*\'" ngf-accept="\'image/*\'">Select Files</div>\n'+
             '\t\t</div>\n'+
-        '\t</div>\n';
+        '\t</div>\n\n';
 
         return code;
     },

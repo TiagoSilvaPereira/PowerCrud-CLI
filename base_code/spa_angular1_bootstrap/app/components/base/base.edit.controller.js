@@ -5,10 +5,10 @@
         .module('{%angularAppName%}')
         .controller('{%object%}EditController', {%object%}EditController);
 
-    {%object%}EditController.$inject = ['CONFIG','{%objects%}Service','Upload','$state','$stateParams'];
+    {%object%}EditController.$inject = ['CONFIG','{%objects%}Service', {%injectOtherServices%}'Upload','$state','$stateParams'];
 
     /* @ngInject */
-    function {%object%}EditController(CONFIG, {%objects%}Service, Upload, $state, $stateParams) {
+    function {%object%}EditController(CONFIG, {%objects%}Service, {%otherServices%}Upload, $state, $stateParams) {
         var vm = this;
         vm.config = CONFIG;
         vm.{%object%} = {};
@@ -23,6 +23,7 @@
             if($stateParams.id){
                 get{%Object%}();
             }
+            {%foreignFunctionsCall%}
         }
 
         function get{%Object%}() {
@@ -33,6 +34,7 @@
             function(error){console.error(error)});
         }
 
+{%getForeignObjects%}
         function save{%Object%}() {
             {%objects%}Service.save{%Object%}(vm.{%object%}).then(
             function(response){

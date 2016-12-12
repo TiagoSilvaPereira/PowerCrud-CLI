@@ -91,12 +91,28 @@ module.exports = {
     },
 
     makeFillableFiels: function(object) {
-        var fields = [];
+        var fields = [], foreignFields = [];
+        
         object.structure.forEach(function(field){
             fields.push('\'' + field.name + '\'');
         });
 
+        foreignFields = this.makeForeignFields(object);
+        fields = fields.concat(foreignFields);
+
         return fields.join(',');
+    },
+
+    makeForeignFields: function(object) {
+        var fields = [];
+
+        if(object.child_of) {
+            object.child_of.forEach(function(foreignName){
+                fields.push('\'' + foreignName + '_id\'');
+            });
+        }
+
+        return fields;
     },
 
     makeController: function(object) {

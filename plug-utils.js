@@ -7,6 +7,18 @@ module.exports = {
         return require('./' + plugObject.plug + '-plug');
     },
 
+    /* Object Helpers */
+    getObjectByName: function(project, name) {
+        let foundObject = {};
+
+        project.data.objects.forEach(function(object){
+            if(object.name == name) 
+                foundObject = object;
+        });
+
+        return foundObject;
+    },
+
     /* Input Helpers*/
     isInputField: function(field) {
         return (field.component == 'text' || field.component == 'number' 
