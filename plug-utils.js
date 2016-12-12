@@ -20,9 +20,12 @@ module.exports = {
     },
 
     /* Input Helpers*/
-    isInputField: function(field) {
-        return (field.component == 'text' || field.component == 'number' 
-            || field.component == 'password' || field.component == 'email');
+    isTextField: function(field) {
+        return (field.component == 'text' || field.component == 'password' || field.component == 'email');
+    },
+
+    isNumberField: function(field) {
+        return (field.component == 'number');
     },
 
     isTextAreaField: function(field) {

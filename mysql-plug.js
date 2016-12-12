@@ -102,6 +102,12 @@ module.exports = {
         if(field.type == 'password') {
             return (field.size == 'no-limit') ? ' TEXT ' : ' VARCHAR(' + field.size + ') ';
         }else
+        if(field.type == 'integer') {
+            return ' INT ';
+        }else
+        if(field.type == 'float') {
+            return ' FLOAT ';
+        }else
         if(field.type == 'file') {
             // File fields are created by fileFieldFk
             return '';

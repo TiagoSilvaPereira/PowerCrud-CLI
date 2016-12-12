@@ -277,8 +277,11 @@ module.exports = {
         let fieldsCode = '';
 
         object.structure.forEach((field) => {
-            if(this.plugUtils.isInputField(field)){
-                fieldsCode += this.inputFieldCode(field, field.component); 
+            if(this.plugUtils.isTextField(field)){
+                fieldsCode += this.textFieldCode(field, field.component); 
+            }else
+            if(this.plugUtils.isNumberField(field)){
+                fieldsCode += this.numberFieldCode(field, field.component); 
             }else
             if(this.plugUtils.isTextAreaField(field)){
                 fieldsCode += this.textAreaFieldCode(field);
@@ -292,7 +295,7 @@ module.exports = {
         return code;
     },
 
-    inputFieldCode: function(field, componentType) {
+    textFieldCode: function(field, componentType) {
         let required = (field.required) ? 'required="required"' : '';
         
         let code = 
@@ -311,6 +314,19 @@ module.exports = {
         '\t<div class="form-group">\n'+
             '\t\t<label for="' + field.name + '">' + this.plugUtils.capitalize(field.name) + '</label>\n'+
             '\t\t<textarea ' + required + ' class="form-control" ng-model="vm.{%object%}.' + field.name + '"></textarea>\n'+
+        '\t</div>\n\n';
+
+        return code;
+    },
+
+    numberFieldCode: function(field) {
+        let required = (field.required) ? 'required="required"' : '',
+            step = (field.type == 'float') ? 'step="0.01"' : '';
+        
+        let code = 
+        '\t<div class="form-group">\n'+
+            '\t\t<label for="' + field.name + '">' + this.plugUtils.capitalize(field.name) + '</label>\n'+
+            '\t\t<input ' + required + ' ' + step + ' type="number" class="form-control" ng-model="vm.{%object%}.' + field.name + '">\n'+
         '\t</div>\n\n';
 
         return code;
