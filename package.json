@@ -1,9 +1,9 @@
 {
   "name": "powercrud",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A simple way to create awesome and powerful CRUD for every language",
   "main": "index.js",
-  "bin" : { "powercrud" : "index.js" },
+  "bin" : { "powercrud" : "bin/powercrud" },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

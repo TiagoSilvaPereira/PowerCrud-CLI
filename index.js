@@ -10,26 +10,29 @@ var spa = require('./starters/spa');
 var fileName = String(process.argv[2] || '');
 if(!fileName) console.log('USAGE: powercrud name_project.json');
 
-// Realiza a leitura do arquivo
-fs.readFile(fileName, 'utf-8', function(err, data) {
+module.exports = {
+    start: function() {
+        fs.readFile(fileName, 'utf-8', function(err, data) {
 
-    if (err) throw err;
+            if (err) throw err;
 
-    try{
-        
-        // Get Project
-        var project = JSON.parse(data);
-        project = filter.filterAndOrganize(project);
+            try{
+                
+                // Get Project
+                var project = JSON.parse(data);
+                project = filter.filterAndOrganize(project);
 
-        //Start creating the Project
-        structure.init(project, function(){
-            database.init(project);
-            connector.init(project);
-            spa.init(project);
+                //Start creating the Project
+                structure.init(project, function(){
+                    database.init(project);
+                    connector.init(project);
+                    spa.init(project);
+                });
+
+            }catch(e){
+                console.log('ERROR: ', e);
+            }
+
         });
-
-    }catch(e){
-        console.log('ERROR: ', e);
     }
-
-});
+};
