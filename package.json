@@ -1,6 +1,6 @@
 {
   "name": "powercrud",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A simple way to create awesome and powerful CRUD for every language",
   "main": "index.js",
   "bin" : { "powercrud" : "bin/powercrud" },
