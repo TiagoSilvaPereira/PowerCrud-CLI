@@ -116,10 +116,17 @@ You need to install the powercrud-spa-angular1-bootstrap plug, that is a NPM mod
 
 The unique exception is the powercrud-mysql plug. It is native, you don't need to install it.
 
+So finally, you can run
+    powercrud name_project.json
+
+This command will generate all the project in the specified "output_directory".
+
+## Available Plugs
+
 At this moment, the available plugs are:
-    - powercrud-mysql (Generate the mysql database, is Native, you cannot install it)
-    - powercrud-spa-angular1-bootstrap (Used to generate a Angular 1 + Bootstrap SPA App)
-    - powercrud-api-php-slim (Used to generate a API with PHP and Slim Framework)
+    * powercrud-mysql (Generate the mysql database, is Native, you cannot install it)
+    * powercrud-spa-angular1-bootstrap (Used to generate a Angular 1 + Bootstrap SPA App)
+    * powercrud-api-php-slim (Used to generate a API with PHP and Slim Framework)
 
 I'll create more Plugs coming soon. This only the first version.
 
