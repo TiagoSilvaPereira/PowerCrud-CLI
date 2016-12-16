@@ -4,11 +4,11 @@ module.exports = {
 
     /* Plug Helpers */
     chooseLocalPlug: function(plugObject) {
-        return require('../plugs/pwc-' + plugObject.plug + '-plug');
+        return require('../plugs/powercrud-' + plugObject.plug);
     },
 
     choosePlug: function(plugObject) {
-        return require('pwc-' + plugObject.plug + '-plug');
+        return require('powercrud-' + plugObject.plug);
     },
 
     /* Directory and Files Helpers */

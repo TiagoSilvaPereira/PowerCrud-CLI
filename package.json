@@ -1,5 +1,5 @@
 {
-  "name": "power-crud",
+  "name": "powercrud",
   "version": "0.1.0",
   "description": "A simple way to create awesome and powerful CRUD for every language",
   "main": "index.js",
