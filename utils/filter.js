@@ -5,7 +5,7 @@ module.exports = {
     filterAndOrganize: function(project) {
         console.log('--- Filtering and Organizing the Project ---');
 
-        this.plugUtils = require('./plug-utils');
+        this.plugUtils = require('powercrud-plug-utils');
 
         project.nameCamelCase = this.plugUtils.camelize(project.name);
         project.data.objects = this.order(project.data.objects);
