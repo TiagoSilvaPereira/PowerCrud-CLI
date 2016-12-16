@@ -30,20 +30,20 @@ module.exports = {
 
     setupDatabase: function() {
         if(this.database.plug == 'mysql') {
-            this.useLocalPlug(this.database.plug);
+            this.useLocalPlug(this.database);
         }else{
-            this.useImportedPlug(this.database.plug);
+            this.useImportedPlug(this.database);
         }
     },
 
-    useLocalPlug: function(plugName) {
-        var databasePlug = this.starterHelpers.chooseLocalPlug(plugName);
+    useLocalPlug: function(plugObject) {
+        var databasePlug = this.starterHelpers.chooseLocalPlug(plugObject);
         databasePlug.init(this.database);
         databasePlug.createDatabase();
     },
 
-    useImportedPlug: function(plugName) {
-        var databasePlug = this.starterHelpers.choosePlug(plugName);
+    useImportedPlug: function(plugObject) {
+        var databasePlug = this.starterHelpers.choosePlug(plugObject);
         databasePlug.init(this.database);
         databasePlug.createDatabase();
     }
