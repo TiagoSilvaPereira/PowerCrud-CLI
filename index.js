@@ -1,11 +1,11 @@
 'use strict';
 
 var fs = require('fs');
-var filter = require('./filter');
-var structure = require('./structure');
-var database = require('./database');
-var connector = require('./connector');
-var spa = require('./spa');
+var filter = require('./utils/filter');
+var structure = require('./starters/structure');
+var database = require('./starters/database');
+var connector = require('./starters/connector');
+var spa = require('./starters/spa');
 
 var fileName = String(process.argv[2] || '');
 if(!fileName) console.log('USAGE: node index.js name_project.json');
