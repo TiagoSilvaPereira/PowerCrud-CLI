@@ -8,7 +8,7 @@ var connector = require('./starters/connector');
 var spa = require('./starters/spa');
 
 var fileName = String(process.argv[2] || '');
-if(!fileName) console.log('USAGE: node index.js name_project.json');
+if(!fileName) console.log('USAGE: powercrud name_project.json');
 
 // Realiza a leitura do arquivo
 fs.readFile(fileName, 'utf-8', function(err, data) {

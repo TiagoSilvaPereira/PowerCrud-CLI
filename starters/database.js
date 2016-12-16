@@ -3,16 +3,11 @@
 module.exports = {
     init: function(project) {
         this.database = this.getDatabase(project);
+        this.starterHelpers = require('./starter-helpers');
 
         if(this.database) {
             this.setupDatabase();
         }
-    },
-
-    formatName: function(name) {
-        name = name.toLowerCase();
-        name = name.replace(/ /g, '_');
-        return name;
     },
 
     getDatabase: function(project) {
@@ -27,16 +22,29 @@ module.exports = {
         return database;
     },
 
+    formatName: function(name) {
+        name = name.toLowerCase();
+        name = name.replace(/ /g, '_');
+        return name;
+    },
+
     setupDatabase: function() {
         if(this.database.plug == 'mysql') {
-            this.generateMySqlDatabase();
+            this.useLocalPlug(this.database.plug);
+        }else{
+            this.useImportedPlug(this.database.plug);
         }
     },
 
-    generateMySqlDatabase: function() {
-        console.log('--- Choose MySQL Plug ---');
-        var mysqlGen = require('../plugs/mysql-plug');
-        mysqlGen.init(this.database);
-        mysqlGen.createDatabase();
+    useLocalPlug: function(plugName) {
+        var databasePlug = this.starterHelpers.chooseLocalPlug(plugName);
+        databasePlug.init(this.database);
+        databasePlug.createDatabase();
+    },
+
+    useImportedPlug: function(plugName) {
+        var databasePlug = this.starterHelpers.choosePlug(plugName);
+        databasePlug.init(this.database);
+        databasePlug.createDatabase();
     }
 }

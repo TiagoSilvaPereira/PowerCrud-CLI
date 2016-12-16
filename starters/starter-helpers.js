@@ -3,8 +3,12 @@
 module.exports = {
 
     /* Plug Helpers */
+    chooseLocalPlug: function(plugObject) {
+        return require('../plugs/pwc-' + plugObject.plug + '-plug');
+    },
+
     choosePlug: function(plugObject) {
-        return require('../plugs/' + plugObject.plug + '-plug');
+        return require('pwc-' + plugObject.plug + '-plug');
     },
 
     /* Directory and Files Helpers */

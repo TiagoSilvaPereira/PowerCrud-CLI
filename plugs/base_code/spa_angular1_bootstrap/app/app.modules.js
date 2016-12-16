@@ -1,1 +1,0 @@
-angular.module('{%angularAppName%}.services', []);
